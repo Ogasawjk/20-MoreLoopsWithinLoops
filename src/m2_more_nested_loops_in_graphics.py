@@ -13,7 +13,6 @@ def main():
     """ Calls the other functions to test them. """
     run_test_draw_upside_down_wall()
 
-
 def run_test_draw_upside_down_wall():
     """ Tests the    draw_upside_down_wall    function. """
     # Tests 1 and 2 are ALREADY DONE (here).
@@ -27,8 +26,8 @@ def run_test_draw_upside_down_wall():
 
     window.close_on_mouse_click()
 
-
 def draw_upside_down_wall(rectangle, n, window):
+
     """
     See   MoreWalls.pdf   in this project for pictures that may
     help you better understand the following specification:
