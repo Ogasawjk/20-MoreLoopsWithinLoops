@@ -9,7 +9,7 @@ Authors: David Mutchler, Valerie Galluzzi, Mark Hays, Amanda Stouder,
 def main():
     """ Calls the other functions to test them. """
     #run_test_largest_number()
-    run_test_largest_negative_number()
+    #run_test_largest_negative_number()
     #run_test_first_is_elsewhere_too()
 
 def run_test_largest_number():
@@ -48,6 +48,12 @@ def run_test_largest_number():
     answer = largest_number(([234], [233]))
     print('Expected and actual are:', expected, answer)
 
+def findx(seq_seq):
+    x = None
+    for k in range(len(seq_seq)):
+        if len(seq_seq[k]) != 0:
+            return seq_seq[k][0]
+    return x
 def largest_number(seq_seq):
     """
     Returns the largest number in the subsequences of the given
@@ -73,21 +79,12 @@ def largest_number(seq_seq):
     and the given argument is a sequence of sequences,
     where each subsequence contains only numbers.
     """
-    count = 0
-    change = 0
+    start = findx(seq_seq)
     for k in range(len(seq_seq)):
-        if len(seq_seq[k]) == 0:
-            count = count + 1
-        else:
-            if change == 0:
-                largest = seq_seq[count][0]
-            for j in range(len(seq_seq[k])):
-                if seq_seq[k][j] > largest:
-                    largest = seq_seq[k][j]
-                    change = change + 1
-        if count == len(seq_seq):
-            return None
-    return largest
+        for j in range(len(seq_seq[k])):
+            if seq_seq[k][j] > start:
+                start = seq_seq[k][j]
+    return start
     # ------------------------------------------------------------------
     # DONE: 3. Implement and test this function.
     #   Note that you should write its TEST function first (above).
@@ -129,12 +126,20 @@ def run_test_largest_negative_number():
     print('Actual is  :', actual)
 
     # Test 4
-    seq = [(-1), (-2, -2.1), (3, 3.1, 3.2), (-5.1, -5.11)]
+    seq = [(-1, 2), (-2, 2), (3, 3.1, 3.2), (-5.1, -5.11)]
     expected = -1
     actual = largest_negative_number(seq)
     print('Expected is:', expected)
     print('Actual is  :', actual)
 
+def findfirstneg(seq_seq):
+    x = None
+    for k in range(len(seq_seq)):
+        if len(seq_seq[k]) != 0:
+            for j in range(len(seq_seq[k])):
+                if seq_seq[k][j] < 0:
+                    return seq_seq[k][j]
+    return x
 def largest_negative_number(seq_seq):
     """
     Returns the largest NEGATIVE number in the given sequence of
@@ -157,22 +162,23 @@ def largest_negative_number(seq_seq):
     and the given argument is a sequence of sequences,
     where each subsequence contains only numbers.
     """
-
-    for k in range(len(seq_seq)):
-        if len(seq_seq[k]) != 0:
+    start = findfirstneg(seq_seq)
+    if start == None:
+        return start
+    else:
+        for k in range(len(seq_seq)):
             for j in range(len(seq_seq[k])):
-                if seq_seq[k][j] < 0:
-                    largest_neg = seq_seq[k][j]
+                if seq_seq[k][j] > start and seq_seq[k][j] < 0:
+                    start = seq_seq[k][j]
+        return start
     # ------------------------------------------------------------------
-    # TODO: 5. Implement and test this function.
+    # DONE: 5. Implement and test this function.
     #   Note that you should write its TEST function first (above).
     #
     # CHALLENGE: Try to solve this problem with no additional sequences
     #   being constructed (so the SPACE allowed is limited to the
     #   give sequence of sequences plus any non-list variables you want).
     # ------------------------------------------------------------------
-
-
 def run_test_first_is_elsewhere_too():
     """ Tests the    first_is_elsewhere_too    function. """
     # ------------------------------------------------------------------
@@ -370,6 +376,11 @@ def run_test_first_is_elsewhere_too():
         print('!!! Your code FAILED some')
     print('    of the tests for first_is_elsewhere_too')
 
+def findfirstelement(seq):
+    if len(seq[0]) != 0:
+        return seq[0][0]
+    else:
+        return False
 def first_is_elsewhere_too(seq_seq):
     """
     Given a sequence of subsequences:
@@ -402,8 +413,15 @@ def first_is_elsewhere_too(seq_seq):
       :type seq_seq: (list, tuple)
     and the given argument is a sequence of sequences.
     """
+    for k in range(1, len(seq_seq)):
+        for j in range(len(seq_seq[k])):
+            a = seq_seq[k][j]
+            for l in range(len(seq_seq[0])):
+                if a == seq_seq[0][l]:
+                    return True
+    return False
     # ------------------------------------------------------------------
-    # TODO: 6. Implement and test this function.
+    # DONE: 6. Implement and test this function.
     #          Some tests are already written for you (above).
     #
     # IMPLEMENTATION RESTRICTION:
@@ -418,8 +436,6 @@ def first_is_elsewhere_too(seq_seq):
     #   in this problem, as doing so would defeat the goal of providing
     #   practice at loops within loops (within loops within ...)
     # ------------------------------------------------------------------
-
-
 # ----------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # ----------------------------------------------------------------------
